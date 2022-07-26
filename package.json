@@ -1,0 +1,22 @@
+{
+  "name": "aws-dyndns-lambda",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "lambda-build archive -e src/index.ts -x aws-sdk aws-lambda",
+    "deploy": "lambda-build upload aws_dyndns_lambda -r eu-central-1 -e src/index.ts -x aws-sdk aws-lambda",
+    "deploy:help": "lambda-build upload --help"
+  },
+  "dependencies": {
+    "@types/aws-lambda": "^8.10.101",
+    "@types/node": "^18.6.1",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1181.0",
+    "lambda-build": "^1.0.6",
+    "prettier": "^2.7.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.31.0",
+    "@typescript-eslint/parser": "^5.31.0",
+    "eslint": "^8.20.0"
+  }
+}

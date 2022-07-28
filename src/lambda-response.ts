@@ -1,4 +1,4 @@
 export interface LambdaResponse {
-  statusCode: number;
-  body: unknown;
+  statusCode: number
+  body: unknown
 }

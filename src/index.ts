@@ -1,13 +1,16 @@
-import {APIGatewayEvent} from 'aws-lambda'
-import {LambdaResponse} from "./lambda-response"
-import {DynDNS} from "./dyndns"
+import { APIGatewayEvent } from 'aws-lambda'
+import { LambdaResponse } from './lambda-response'
+import { DynDNS } from './dyndns'
 
 const HOSTED_ZONE_ID = process.env.HOSTED_ZONE_ID
+const INCLUDE_SUBDOMAINS = true
+
+const ALREADY_UP_TO_DATE = 'Already up to date.'
 
 function success(changedHosts: string[]): LambdaResponse {
   return {
     statusCode: 200,
-    body: 'Hosts Updated: ' + changedHosts,
+    body: changedHosts.length > 0 ? 'Hosts Updated: ' + changedHosts : ALREADY_UP_TO_DATE,
   }
 }
 
@@ -40,8 +43,12 @@ export const handler: (event: APIGatewayEvent) => Promise<LambdaResponse> = asyn
   try {
     const hostname = determineHostname(event)
     const ip = determineIp(event)
-    const changedHosts = await new DynDNS(HOSTED_ZONE_ID)
-      .updateIpForHostname({hostname, ip, includeSubdomains: true})
+    const dynDNS = new DynDNS(HOSTED_ZONE_ID)
+    const changedHosts = await dynDNS.updateIpForHostname({
+      hostname,
+      ip,
+      includeSubdomains: INCLUDE_SUBDOMAINS,
+    })
     return success(changedHosts)
   } catch (e) {
     return failed(event, e)

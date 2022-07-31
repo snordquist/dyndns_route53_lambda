@@ -2,8 +2,9 @@
   "name": "aws-dyndns-lambda",
   "version": "1.0.0",
   "scripts": {
-    "build": "lambda-build archive -e src/index.ts -x aws-sdk aws-lambda",
-    "deploy": "lambda-build upload aws_dyndns_lambda -r eu-central-1 -e src/index.ts -x aws-sdk aws-lambda",
+    "deploy:dyndns": "lambda-build upload aws_dyndns_lambda -r eu-central-1 -e src/dyndns/index.ts -x aws-sdk aws-lambda",
+    "deploy:authorizer": "lambda-build upload dyndns_authorizer -r eu-central-1 -e src/authorizer/index.ts -x aws-sdk aws-lambda",
+    "deploy": "npm run deploy:dyndns && npm run deploy:authorizer",
     "deploy:help": "lambda-build upload --help",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"

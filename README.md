@@ -24,6 +24,7 @@
 * Add Permissions for Lambda execution role
   * `route53:ChangeResourceRecordSets`
   * `route53:ListResourceRecordSets`
+* The timeout for this lambda might be increased to `>10` seconds
 
 ### Authorization Lambda
 * Create Lambda

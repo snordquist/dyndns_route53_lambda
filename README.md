@@ -4,12 +4,12 @@
 
 # Sample
 
-| Hostname                    | `A` Record                                      |
-|-----------------------------|-------------------------------------------------|
-| dyndns.mydmain.com          | `[api].execute-api.eu-central-1.amazonaws.com.` |
-| home.mydmain.com            | `[dynamic ip]`                                  |
-| subdomain1.home.mydmain.com | `[dynamic ip]`                                  |
-| subdomain2.home.mydmain.com | `[dynamic ip]`                                  |
+| Hostname                    | `A` Record                                  |
+|-----------------------------|---------------------------------------------|
+| dyndns.mydmain.com          | `[api].execute-api.[region].amazonaws.com.` |
+| home.mydmain.com            | `[dynamic ip]`                              |
+| subdomain1.home.mydmain.com | `[dynamic ip]`                              |
+| subdomain2.home.mydmain.com | `[dynamic ip]`                              |
 
 ## Prerequisites
 
@@ -42,6 +42,8 @@
 ## Deploy
 
 ### Execute deployment
+
+Adjust lambda names in `package.json` scripts
 
 `npm run deploy`
 

@@ -4,12 +4,12 @@
 
 # Sample
 
-| Hostname                    | `A` Record                                  |
-|-----------------------------|---------------------------------------------|
-| dyndns.mydmain.com          | `[api].execute-api.[region].amazonaws.com.` |
-| home.mydmain.com            | `[dynamic ip]`                              |
-| subdomain1.home.mydmain.com | `[dynamic ip]`                              |
-| subdomain2.home.mydmain.com | `[dynamic ip]`                              |
+| Hostname                     | `A` Record                                    |
+|------------------------------|-----------------------------------------------|
+| dyndns.mydomain.com          | `[api].execute-api.[region].amazonaws.com.`   |
+| home.mydomain.com            | `[dynamic ip]`                                |
+| subdomain1.home.mydomain.com | `[dynamic ip]`                                |
+| subdomain2.home.mydomain.com | `[dynamic ip]`                                |
 
 ## Prerequisites
 
@@ -18,21 +18,24 @@
 * Create certificate for your domain including subdomains
 
 ### DynDNS Lambda
-* Create Lambda 
+
+* Create Lambda
 * Provide environment variables:
-  * `HOSTED_ZONE_ID`
+    * `HOSTED_ZONE_ID`
 * Add Permissions for Lambda execution role
-  * `route53:ChangeResourceRecordSets`
-  * `route53:ListResourceRecordSets`
+    * `route53:ChangeResourceRecordSets`
+    * `route53:ListResourceRecordSets`
 * The timeout for this lambda might be increased to `>10` seconds
 
 ### Authorization Lambda
+
 * Create Lambda
 * Provide environment variables:
-  * `BASIC_AUTH_USERNAME`
-  * `BASIC_AUTH_PASSWORD`
+    * `BASIC_AUTH_USERNAME`
+    * `BASIC_AUTH_PASSWORD`
 
 ### API Gateway
+
 * create API gateway with lambda proxy
 * configure authenticator to method request
 
@@ -49,4 +52,5 @@ Adjust lambda names in `package.json` scripts
 `npm run deploy`
 
 ### Test
+
 `curl -u user:pass https://dyndns.mydomain.com/?hostname=home.mydomain.com`

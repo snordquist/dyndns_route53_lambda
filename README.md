@@ -47,8 +47,6 @@
 
 ### Execute deployment
 
-Adjust lambda names in `package.json` scripts
-
 ```
 export BASIC_AUTH_USERNAME=AAAAAAA
 export BASIC_AUTH_PASSWORD=BBBBBBB

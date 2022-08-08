@@ -1,6 +1,6 @@
-import { APIGatewayEvent } from 'aws-lambda'
 import { LambdaResponse } from './lambda-response'
 import { DynDNS } from './dyndns'
+import { APIGatewayProxyEventV2 } from 'aws-lambda/trigger/api-gateway-proxy'
 
 const HOSTED_ZONE_ID = process.env.HOSTED_ZONE_ID
 const INCLUDE_SUBDOMAINS = true
@@ -14,15 +14,15 @@ function success(changedHosts: string[]): LambdaResponse {
   }
 }
 
-function determineIp(event: APIGatewayEvent): string {
-  const ip = event.queryStringParameters?.ip ?? event.requestContext.identity.sourceIp
+function determineIp(event: APIGatewayProxyEventV2): string {
+  const ip = event.queryStringParameters?.ip ?? event.requestContext.http.sourceIp
   if (!ip) {
     throw 'Failed to determine ip'
   }
   return ip
 }
 
-function determineHostname(event: APIGatewayEvent): string {
+function determineHostname(event: APIGatewayProxyEventV2): string {
   const hostname = event.queryStringParameters?.hostname
   if (!hostname) {
     throw 'Failed to determine hostname'
@@ -30,7 +30,7 @@ function determineHostname(event: APIGatewayEvent): string {
   return hostname
 }
 
-function failed(event: APIGatewayEvent, error): LambdaResponse {
+function failed(event: APIGatewayProxyEventV2, error): LambdaResponse {
   console.error(error, event)
   return {
     statusCode: 500,
@@ -39,7 +39,9 @@ function failed(event: APIGatewayEvent, error): LambdaResponse {
 }
 
 // noinspection JSUnusedGlobalSymbols
-export const handler: (event: APIGatewayEvent) => Promise<LambdaResponse> = async (event: APIGatewayEvent) => {
+export const handler: (event: APIGatewayProxyEventV2) => Promise<LambdaResponse> = async (
+  event: APIGatewayProxyEventV2,
+) => {
   try {
     const hostname = determineHostname(event)
     const ip = determineIp(event)

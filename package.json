@@ -2,10 +2,13 @@
   "name": "aws-dyndns-lambda",
   "version": "1.0.0",
   "scripts": {
-    "deploy:dyndns": "lambda-build upload aws_dyndns_lambda -r eu-central-1 -e src/dyndns/index.ts -x aws-sdk aws-lambda",
-    "deploy:authorizer": "lambda-build upload dyndns_authorizer -r eu-central-1 -e src/authorizer/index.ts -x aws-sdk aws-lambda",
-    "deploy": "npm run deploy:dyndns && npm run deploy:authorizer",
-    "deploy:help": "lambda-build upload --help",
+    "build": "rm -rf dist && esbuild ./src/* --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node16.14 --outdir=dist --external:aws-sdk --external:aws-lambda",
+    "package": "cd dist && for f in * ; do ([ -d \"$f\" ] && cd $f && zip ../$f.zip *) ; done",
+    "package:unbundled": "rm -rf node_modules unbundled.zip && npm i --only=prod && zip -r unbundled.zip src/* node_modules/*",
+    "package:large": "rm -rf node_modules large.zip && npm i && zip -r large.zip src/* node_modules/*",
+    "predeploy": "npm i && npm run build",
+    "deploy": "cd infrastructure && npm run cdk deploy",
+    "destroy": "cd infrastructure && npm run cdk destroy",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"
   },
@@ -14,6 +17,7 @@
     "@types/node": "^18.6.1",
     "aws-lambda": "^1.0.7",
     "aws-sdk": "^2.1181.0",
+    "esbuild": "^0.14.53",
     "lambda-build": "^1.0.6",
     "prettier": "^2.7.1"
   },

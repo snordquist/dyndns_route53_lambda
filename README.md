@@ -49,7 +49,15 @@
 
 Adjust lambda names in `package.json` scripts
 
-`npm run deploy`
+```
+export BASIC_AUTH_USERNAME=AAAAAAA
+export BASIC_AUTH_PASSWORD=BBBBBBB
+export CONFIG_DOMAIN_CERTIFICATE_ARN=arn:aws:acm:[region]:[account]:certificate/[certificate id]
+export CONFIG_DOMAIN_NAME=dyndns.mydomain.com
+export HOSTED_ZONE_ID=XXXXXXXXXXXXX
+export HOSTED_ZONE_NAME=YYYYYY
+npm run deploy
+```
 
 ### Test
 
